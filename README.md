@@ -60,7 +60,7 @@ If you check it's the same you only have in the church codification :
 ```
 check f x y = f x
 check True x y = (λx.λy.x) exp_true exp_false
-check False x y = (λx.λy.y) exp_true exp_true
+check False x y = (λx.λy.y) exp_true exp_false
 ```
 
 
