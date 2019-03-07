@@ -30,10 +30,10 @@ In any functional language it's possible encoding typed church encodifications, 
 
 Define a boolean type as two function : one that take two arguments and return the first and ~one function that return the second function.
 So, one = true and ~one = false.
-
+```
 True = λx.λy. x
 False = λx.λy. y
-
+```
 With a simple definition of algebraic data type we can code the same effect in this way :
 
 ```haskell
