@@ -65,3 +65,13 @@ check False x y = (λx.λy.y) exp_true exp_true
 
 
 So bool_possibility of check and bool matching is the same, *of course the definition used in this work it's not agdt boolean, however both are correspondent too*.
+
+
+# More works...
+
+This project is a extension of :
+
+https://github.com/caotic123/BrainLambda (A brainfuck codification in lambda calculus)
+https://github.com/caotic123/Grr-Programming-Language (A pure textual language that someway encode lambda terms)
+
+If you have a question or just want to tell something just text me : camposferreiratiago@gmail.com, or any way you found contact doesn't matter :)
