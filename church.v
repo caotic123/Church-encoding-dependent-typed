@@ -21,6 +21,8 @@ Definition A_one {X} (t : X) (w : X -> X) := (As (AZero w t)).
 
 Definition ind_r {B} {A : B} {f : B -> B} (x : A_nat f A) := A.
 
+Inductive Maybe (A : Type) := |Surely : A -> Maybe A | Nothing. 
+
 Fixpoint n_ {A : Type} {f : A -> A} {c : A} (a : A_nat f c) :=
   match a with
     |As s => n_ s
@@ -64,6 +66,20 @@ move => A p d z; case => P.
 by [].
 Qed.
 
+Definition just_partial {A} {f : A -> A} {x' : A} (x : A_nat f x') : Maybe (A_nat f x') :=
+  match x with
+    |@As _ _ _ s => Surely (As s)
+    |AZero _ _ => Nothing _
+  end.
+
+Theorem naturals_are_parcials : forall {A} {f : A -> A} (c : A) (x : A_nat f c), just_partial x = Surely x \/ just_partial x = Nothing _.
+move => s k g' v'.
+destruct v'.
+apply : or_introl.
+trivial.
+apply : or_intror.
+trivial.
+Qed.
 
 Compute (fun (A : Type) (d : A -> A) (x : A) (f : A_nat d x) => 
  Sn (Sn_nat f) (n_ f) d = d (Sn_nat f (n_ f) d)) _ _ _ (As (AZero (plus 2) 0)).
