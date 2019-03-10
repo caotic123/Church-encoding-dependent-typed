@@ -343,6 +343,7 @@ unfold curry_list in *.
 unfold cons in *.
 move : IHx.
 unfold minimal_case in *.
+fold (minimal_case x0).
 generalize ((fix
     curry_list (A0 : Type) (y : A0) (z' : A0 -> A0 -> A0) 
                (l : list z' y) {struct l} : t_list A0 :=
@@ -352,15 +353,7 @@ generalize ((fix
           f x1 (curry_list A0 y'0 z' y0 f v'')
       | Anil _ x1 _ =>
           fun (f : A0 -> A0 -> A0) (v'' : A0) => f x1 (nil f v'')
-      end) A y' z x0 z
-     ((fix
-       minimal_case (A0 : Type) (y'0 : A0) (functor : A0 -> A0 -> A0)
-                    (a : list functor y'0) {struct a} : A0 :=
-         match a with
-         | @Acons _ _ _ y'1 y => minimal_case A0 y'1 functor y
-         | Anil _ _ y => y
-         end) A y' z x0)). (*more know in brazilian knowledge 'gambiarra'*)
-
+      end) A y' z x0 z (minimal_case x0)). (*more know in brazilian knowledge 'gambiarra'*)
 move => h' H.
 replace y' with h' by H.
 reflexivity.
