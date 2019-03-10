@@ -72,7 +72,7 @@ Definition just_partial {A} {f : A -> A} {x' : A} (x : A_nat f x') : Maybe (A_na
     |AZero _ _ => Nothing _
   end.
 
-Theorem naturals_are_parcials : forall {A} {f : A -> A} (c : A) (x : A_nat f c), just_partial x = Surely x \/ just_partial x = Nothing _.
+Theorem naturals_can_be_partials: forall {A} {f : A -> A} (c : A) (x : A_nat f c), just_partial x = Surely x \/ just_partial x = Nothing _.
 move => s k g' v'.
 destruct v'.
 apply : or_introl.
