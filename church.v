@@ -360,6 +360,51 @@ reflexivity.
 auto.
 Qed.
 
+Inductive monoid (T : Type) (p' : T -> T -> T) : Prop :=
+  monoidT : forall {x : T}, {x' | p' x x' = p' x' x} -> monoid p'.
+
+
+Theorem nat_plus_is_monoid : forall (x : nat), monoid plus.
+refine (fun x : nat => 
+  (@monoidT nat plus 0 (exist (fun x' => plus 0 x' = plus x' 0) x _))).
+
+(*hand mode*)
+induction x.
+trivial.
+simpl in *.
+replace (x + 0) with x by IHx.
+by [].
+(*end*)
+
+(* or just *)
+(*trivial.*)
+(*end*)
+Qed.
+
+Ltac test := cbv.
+
+Ltac eq_0 := match goal with
+                  | [|- ?a -> ?f] => refine (fun x => (@monoidT nat plus 0 (exist (fun x' => list_correspodence (Anil plus 0 x') = list_correspodence (Anil plus x' 0)) x _)))
+                end.
+
+
+Theorem monoid_list_correspond : nat -> monoid (fun x x' => list_correspodence (Anil plus x x')) /\ monoid (fun x x' => v'_list (Anil plus x x')).
+unfold list_correspodence.
+unfold curry_list.
+unfold cons;unfold minimal_case; unfold nil.
+intros; apply : conj.
+move : H.
+refine (fun x : nat => 
+  (@monoidT nat plus 0 (exist (fun x' => list_correspodence (Anil plus 0 x') = list_correspodence (Anil plus x' 0)) x _))).
+
+cbv.
+tests.
+
+move : H; refine (fun x : nat => 
+  (@monoidT nat plus 0 (exist (fun x' => v'_list (Anil plus 0 x') = v'_list (Anil plus x' 0)) x _))).
+cbv.
+fold (plus x 0); trivial.
+Qed.
 
 (*Fixpoint add_ {T} {y_ : T -> T} {g t : T} (d : A_nat y_ g) (c : A_nat y_ t) {struct d} : A_nat y_ (applications_func_Anat d c).
    refine(match d as k' return A_nat y_ (y_ (applications_func_Anat k' c)) with
