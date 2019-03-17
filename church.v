@@ -363,7 +363,6 @@ Qed.
 Inductive monoid (T : Type) (p' : T -> T -> T) : Prop :=
   monoidT : forall {x : T}, {x' | p' x x' = p' x' x} -> monoid p'.
 
-
 Theorem nat_plus_is_monoid : forall (x : nat), monoid plus.
 refine (fun x : nat => 
   (@monoidT nat plus 0 (exist (fun x' => plus 0 x' = plus x' 0) x _))).
@@ -381,12 +380,6 @@ by [].
 (*end*)
 Qed.
 
-Ltac test := cbv.
-
-Ltac eq_0 := match goal with
-                  | [|- ?a -> ?f] => refine (fun x => (@monoidT nat plus 0 (exist (fun x' => list_correspodence (Anil plus 0 x') = list_correspodence (Anil plus x' 0)) x _)))
-                end.
-
 
 Theorem monoid_list_correspond : nat -> monoid (fun x x' => list_correspodence (Anil plus x x')) /\ monoid (fun x x' => v'_list (Anil plus x x')).
 unfold list_correspodence.
@@ -396,22 +389,18 @@ intros; apply : conj.
 move : H.
 refine (fun x : nat => 
   (@monoidT nat plus 0 (exist (fun x' => list_correspodence (Anil plus 0 x') = list_correspodence (Anil plus x' 0)) x _))).
-
 cbv.
-tests.
-
+fold (plus x 0); trivial.
 move : H; refine (fun x : nat => 
   (@monoidT nat plus 0 (exist (fun x' => v'_list (Anil plus 0 x') = v'_list (Anil plus x' 0)) x _))).
 cbv.
 fold (plus x 0); trivial.
 Qed.
 
-(*Fixpoint add_ {T} {y_ : T -> T} {g t : T} (d : A_nat y_ g) (c : A_nat y_ t) {struct d} : A_nat y_ (applications_func_Anat d c).
-   refine(match d as k' return A_nat y_ (y_ (applications_func_Anat k' c)) with
-     |@As _ _ fg s  => (@As T y_ _ (@add_ T y_  fg _ s c))
-     |AZero _ _ =>  (@As T y_ (applications_func_Anat (AZero _ _) c) c)
-   end). *)
 
+Definition id {A} (x : A) := x.
+Inductive identity_lambda {A} (u' : A) : (id u' = u') -> Prop := 
+  |Unique : identity_lambda eq_refl.
 
 
 
